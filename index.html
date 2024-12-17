@@ -13,6 +13,18 @@
         h1 {
             text-align: center;
         }
+
+        h2 {
+            text-align: center;
+            margin-top: 5px; /* 为了给中文标题与英文标题留出间距 */
+        }
+
+        .intro-text {
+            text-align: center;  /* 文本居中 */
+            font-size: 16px;      /* 调整字体大小 */
+            color: #333;          /* 字体颜色 */
+            margin-top: 20px;     /* 与标题和文段的间距 */
+        }
         .sentence {
             cursor: pointer;
             padding: 10px;
@@ -98,9 +110,16 @@
 </head>
 <body>
     <h1>签证问题及回答-光辉</h1>
+    <h2>Questions and Answers</h2>  <!-- 英文标题 -->
     <!-- 自动播放开关 -->
     <button id="autoplayToggle" class="autoplay-toggle" onclick="toggleAutoplay()">自动播放：关</button>
-
+    
+    <!-- 添加说明文字 -->
+    <p class="intro-text">
+    点击方框聆听Vivian的声音 <br> <!-- 第一行中文 -->
+    Click the box to listen to Vivian's voice <!-- 第二行英文 -->
+    </p>
+    
     <!-- 示例文段 -->
     <div class="sentence" onclick="playAudio('001.mp3', 0)">
         1. 为什么你想去美国学习？Why do you want to study in the US?<br>
