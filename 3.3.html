@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>签证问题及回答-光辉</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding-bottom: 80px; /* 避免内容被播放器遮挡 */
+        }
+        h1 {
+            text-align: center;
+        }
+        .sentence {
+            cursor: pointer;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .sentence:hover {
+            background-color: #f0f0f0;
+        }
+        .sentence.active {
+            background-color: #d0f0ff; /* 高亮背景颜色 */
+            border-left: 5px solid #007bff; /* 高亮左侧蓝条 */
+        }
+        /* 固定播放器到页面底部 */
+        .audio-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f8f8f8;
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        audio {
+            width: 80%;
+        }
+        button {
+            margin-left: 15px;
+            padding: 8px 12px;
+            font-size: 14px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .autoplay-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1000;
+        }
+        .autoplay-toggle.off {
+            background-color: #dc3545;
+        }
+        #backToTop {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            padding: 10px 15px;
+            font-size: 14px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+        }
+        #backToTop:hover {
+            background-color: #0056b3;
+        }
+        #progressInfo {
+            margin-left: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>签证问题及回答-光辉</h1>
+    <!-- 自动播放开关 -->
+    <button id="autoplayToggle" class="autoplay-toggle" onclick="toggleAutoplay()">自动播放：关</button>
+
+    <!-- 示例文段 -->
+    <div class="sentence" onclick="playAudio('001.mp3', 0)">
+        1. 为什么你想去美国学习？Why do you want to study in the US?<br>
+        因为美国的大学教育更好，除了高水准的专业课，还有种类众多的通识教育课程，选择灵活。<br>
+        I would like to study in the US because the U.S. is better in university education, has high-level professional courses, and a lot of general education courses. The choices are also very flexible.
+    </div>
+    <div class="sentence" onclick="playAudio('002.mp3', 1)">
+        2. 为什么不继续在中国学习？Why not continue your study in China?<br>
+        我错过了高考，也不想再花时间复读了，就想出国去接受教育，所以没有继续在中国学习。<br>
+        I missed the GaoKao this summer and didn't want to waste my time retaking it, so I decided to study abroad instead of continuing my studies in China.
+    </div>
+    <div class="sentence" onclick="playAudio('003.mp3', 2)">
+        3. 为什么不去其它国家呢？Why don't you want to study in other countries？<br>
+        我有考虑过其他国家，但美国的大学教育确实更好，不仅资源最新，实践机会也多。我相信在美国读书，能让我得到其他国家给不了的提升。<br>
+        I have considered other countries, but university education really is better in the US. It has the latest resources and lots of practical opportunities. I believe studying in the U.S. will help me grow in a way I can’t anywhere else.
+    </div>
+    <div class="sentence" onclick="playAudio('004.mp3', 3)">
+        4. 为何现在才来签证？Why are you applying for a visa now? Why did you get a visa so late?<br>
+        一直在准备高考，想在中国读大学，可能是压力大，心理和身体都出现了问题，高考前病倒了。9月份才开始计划去美国读书，就申请了春季入学的学校。<br>
+        I had always been preparing for GaoKao, wanting to study in a Chinese University, but I became sick right before it due to physical and mental pressure, so I was unable to take it. Only in September did I make up my mind to study in the US, so I applied to a school and now plan to enroll in the spring semester.
+    </div>
+    <div class="sentence" onclick="playAudio('005.mp3', 4)">
+        5. 💥为什么选择社区大学？Why do you choose Community College?<br>
+        在我的案例里，社区大学是去更好大学的跳板。我以前是班里的尖子生，但错过了高考，崩溃后在家休息了。九月份，我决定不复读了，想出国读书，但时间太紧，没申请到理想的学校。社区大学入学要求低，容易达到，专业多，教学水平不错，还可以转学分，学费也实惠，我打算两年后转学到四年制大学。<br>
+        Community colleges are a springboard to better universities in my case. I used to be the top student in my class, but I burned out before Gaokao and missed it, so I took a break at home. In September, I decided not to reset and wanted to study abroad, but the time was too tight to apply to a dream school. This community college offers many majors, good standards and reasonable tuition fees, so I chose it, and will transfer to a four-year university in 2 years.
+    </div>
+    <div class="sentence" onclick="playAudio('006.mp3', 5)">
+        6. 💥为什么选择这所社区大学呢？Why did you choose this school?<br>
+        CSCC是新英格兰地区最大的社区大学之一，新英格兰地区是美国大学教育的发源地，教育水平高，好大学多。学校每年都有学生成功转学到耶鲁、康奈尔、康大等名校，成功率还不错，当地口碑也很好。再加上学费合理，对我来说是个不错的机会。<br>
+        CSCC is one of the largest community colleges in the New England area, which is the birthplace of American higher education. And it has many top universities. Each year, a number of its students successfully transfer to schools like Yale, Cornell, and UConn with a high success rate, and CSCC has a good local reputation. And the tuition is affordable,so it is a great opportunity for me.
+    </div>
+    <div class="sentence" onclick="playAudio('007.mp3', 6)">
+        7. 你如何找到这所大学的？How do you know/find this school?<br>
+        几个月前我在网上研究了学分转移项目，然后我详细咨询了一个老师，他推荐我一些很好的有相关政策的社区大学，我就选择了CSCC。<br>
+        A few months ago, I searched online for credit transfer programs, then consulted a teacher who suggested a few good community colleges. Through this, I chose CSCC.
+    </div>
+    <div class="sentence" onclick="playAudio('008.mp3', 7)">
+        8. 💥你学习什么专业？为什么选这个专业？ What's your major? Why this major?<br>
+        会计。我从小时候就喜欢数学。现在我觉得这个职业很稳定，经验越多越吃香，而且收入也不错。<br>
+        Accounting. I have liked Math since I was a child. And now I think it is a very stable profession that becomes more valuable with age. By the way, the salary is good.
+    </div>
+    <div class="sentence" onclick="playAudio('009.mp3', 8)">
+        9. 你在美国计划待多长时间？How long will you study in USA?<br>
+        至少4 - 5年，我希望我可以拿到注册会计师证书之后再回国。<br>
+        I plan to study in the U.S. for at least 4 - 5 years, and hope to pass my CPA exam and get the certificate before coming back.
+    </div>
+    <div class="sentence" onclick="playAudio('010.mp3', 9)">
+        10. 你的学习计划是什么？What's your study plan?<br>
+        我计划先在CSCC学两年，完成基础课程后转到四年制大学,比如康州大学。本科毕业后，我打算继续读硕士，修更多学分，同时考取注册会计师证书（CPA），然后回国工作。<br>
+        I plan to study at CSCC for two years to complete basic courses, then transfer to a four-year university, such as the University of Connecticut. After graduating from undergraduate studies, I plan to get a master's degree in accounting, earn more credits, get a CPA certificate, and then return to China for work.
+    </div>
+    <div class="sentence" onclick="playAudio('011.mp3', 10)">
+        11. 你一共申请了几所学校呢？为什么只申请这一所？how many institutions have you applied to？<br>
+        这是我计划申请第一所学校，也是我最想去的一所学校。我申请后很快就被录取了，所以我就决定不再申请其他的。<br>
+        This was the first school I applied to, and the one I really wanted to go to. I was accepted quickly, so I didn’t apply to others.
+    </div>
+    <div class="sentence" onclick="playAudio('012.mp3', 11)">
+        12. 💥你能证明你会回国吗？Can you prove that you will come back?<br>
+        当然，国内会计工作的就业机会非常多，这如果在美国读完会计专业，又通过CPA考试，我将有更多竞争优势，回国可以得到更好的工作和更高的薪资。而且我的家人朋友都在中国。<br>
+        Of course, there are many accounting jobs in China, and I will have more competitive advantages if I finish my studies in the US and get a CPA certificate. I can get a better job and higher salary if I return. Also, my family and friends are all in China.
+    </div>
+    <div class="sentence" onclick="playAudio('013.mp3', 12)">
+        13. 你的学费多少？How much is your tuition?<br>
+        每年大约一万五（I20上是 $15,476）。<br>
+        About 15,000 dollars per year.
+    </div>
+    <div class="sentence" onclick="playAudio('014.mp3', 13)">
+        14. 谁担负你上学的费用呢？Who will support (pay/sponsor) the costs of your studies?<br>
+        我的父母。他们为我准备了大约82万人民币。（递上存款证明）<br>
+        My parents. They have prepared about 820,000 yuan for me.
+    </div>
+    <div class="sentence" onclick="playAudio('015.mp3', 14)">
+        15. 你父母是做什么工作的？What do your parents do?<br>
+        我爸是一家物流公司的物流经理，我妈是同一家公司的人力资源部主任。<br>
+        My dad is a logistics manager at a logistics company in Xiamen. My mom works there too as a Human Resources Director. (Xiamen Minyunbang Logistics Co., Ltd.)
+    </div>
+    <div class="sentence" onclick="playAudio('016.mp3', 15)">
+        16. 💥你父母的工作具体做什么？What do your parents do for work?<br>
+        我爸负责规划、协调、监督物流和供应链的各个环节。我妈负责规划和管理公司的人才招聘、培训发展、绩效考核、薪酬福利及劳动关系。<br>
+        My dad oversees logistics and supply chain operations. My mom manages hiring, training, performance, pay, and labor relations.
+    </div>
+    <div class="sentence" onclick="playAudio('017.mp3', 16)">
+        17. 你父母工作几年了？ How many years have your parents been working?<br>
+        工作应该有二十几年了。 They both have been working for around 20 years. 
+    </div>
+    <div class="sentence" onclick="playAudio('018.mp3', 17)">
+        18. 你父母每年的薪资是多少？How much do your parents earn per year?<br>
+        我爸一年赚大概五十万元，我妈大概是二十万元。<br>
+        Well, my dad earns around 500,000 yuan a year, and my mom makes about 200,000 yuan.
+    </div>
+    <div class="sentence" onclick="playAudio('019.mp3', 18)">
+        19. 你有语言成绩吗？是多少？How is the English Proficiency Test done?<br>
+        有，我参加过多邻国英语测试（DET）分数是100分。<br>
+        Yes. I took the Duolingo English Test on October 30 and scored 100.
+    </div>
+    <div class="sentence" onclick="playAudio('020.mp3', 19)">
+        20. 你的学校在哪里？Where is your school?<br>
+        在康州的沃特伯理，丹伯里校区在主街道190号。<br>
+        It is in Waterbury, Connecticut. There’s also a Danbury campus located at 190 Main Street, Danbury, Connecticut.
+</div>
+<div class="sentence" onclick="playAudio('021.mp3', 20)">
+        21. 你上的是几年级？What grade are you in?<br>
+        我是大一新生。I am a freshman.
+    </div>
+    <div class="sentence" onclick="playAudio('022.mp3', 21)">
+        22. 学校什么时候开学？ When does school start?<br>
+        2025年1月24日，春季开学。 The spring semester begins on January 24, 2025.
+    </div>
+    <div class="sentence" onclick="playAudio('023.mp3', 22)">
+        23. 💥你在高中时的学习/成绩如何？How is your study in your school?<br>
+        中等偏上，这是我的成绩单。 My grades are above average. Here is my transcript.
+    </div>
+    <div class="sentence" onclick="playAudio('024.mp3', 23)">
+        24. 你的高中平均GPA是多少？What is your average GPA score?<br>
+        平均是3.9。这是我的成绩单。 3.9, Here is my transcript.
+    </div>
+    <div class="sentence" onclick="playAudio('025.mp3', 24)">
+        25. 你的户口在哪里？Where is your HUKOU?<br>
+        河南省。 Henan Province
+    </div>
+    <div class="sentence" onclick="playAudio('026.mp3', 25)">
+        26. 你能解释为什么这么多留学生毕业后不回来吗？Can you explain why most Chinese students didn’t come back after graduation?<br>
+        对不起，我不太清楚。但我认识的人很多留学后都回中国就业了。<br>
+        Sorry, I'm not sure. But many people I know returned to China for work after studying abroad.
+    </div>
+    <div class="sentence" onclick="playAudio('027.mp3', 26)">
+        27. 💥你在美国的假期期间会做什么？What will you do during your vacations in America?<br>
+        暑假我可能会修一些学分课程，补上我晚了的进度。短假期，我可能会去观光吧，听说康州是个风景优美的地方。<br>
+        During the summer vacation, I might take some credit courses to catch up on the progress I missed. For short vacations, I might go sightseeing. I hear Connecticut is a beautiful place.
+    </div>
+    <div class="sentence" onclick="playAudio('028.mp3', 27)">
+        28. 如果你在那能赚到很多钱，你会选择留在那吗？If you can make more money in the US, do you want to stay there?<br>
+        我想应该不会，因为不太现实。在美国就业我并占优势，在国内我更加有优势。<br>
+        I don't think so, because it's not realistic. I wouldn’t have the advantages in the US that I would in China.
+    </div>
+    <div class="sentence" onclick="playAudio('029.mp3', 28)">
+        29. 毕业之后你会继续在美国学习吗？Will you continue your study in America after you graduate?<br>
+        我想会的，我想考取CPA证书。如果可能，我还会攻读会计硕士学位。<br>
+        I think I will, I want to get my CPA certificate. If possible, I would like to get a master's degree in accounting.💥
+    </div>
+    <div class="sentence" onclick="playAudio('030.mp3', 29)">
+        30. 💥你的职业计划？你将来会做什么？What is your career plan? What will you do in the future?<br>
+        我将来想成为一名会计师，进入“四大”会计师事务所工作，积累更多经验，提升自己的职位。<br>
+        I want to be an accountant in the future, and work for one of the "big four" accounting firms in China to get more experience, and improve my position.<br>
+        【四大会计师事务所：普华永道（PwC）、德勤（DTT）、毕马威（KPMG）、安永（EY）】
+    </div>
+    <div class="sentence" onclick="playAudio('031.mp3', 30)">
+        31. 你计划多久回国一次？How often do you plan to come back?<br>
+        两年一次。我已经比我的同学们晚了半年入学了，希望不浪费时间。<br>
+        Once every two years. I have already started half a year later than my classmates, so I hope I won't waste time.
+    </div>
+    <div class="sentence" onclick="playAudio('032.mp3', 31)">
+        32. 你是自己申请的这所学校吗？Did you apply for this school by yourself?<br>
+        是的。Yes.
+    </div>
+    <div class="sentence" onclick="playAudio('033.mp3', 32)">
+        33. 你是自己准备的这场面签吗？Did you prepare for this Interview by yourself?<br>
+        是的。Yes.
+    </div>
+    <div class="sentence" onclick="playAudio('034.mp3', 33)">
+        34. 你有任何朋友或者亲戚在美国吗？Do you have any friends or relatives studying there?   <br>
+        没有。No.
+    </div>
+    <div class="sentence" onclick="playAudio('035.mp3', 34)">
+        35. 谁会和你一起去？Who will go with you?<br>
+        我自己去。Just myself.
+    </div>
+    <div class="sentence" onclick="playAudio('036.mp3', 35)">
+        36. 你会想念你的家人吗？Do you miss your family?<br>
+        应该会想啊，但现在视频通话很方便，应该还好。<br>
+        I think I would, but I can make video calls, so it's not so bad.
+    </div>
+    <div class="sentence" onclick="playAudio('037.mp3', 36)">
+        37. 你打算住在哪个城市？Which city do you plan to live in? Where do you plan to live?<br>
+        康涅狄格州的丹伯里。离学校不远。 Danbury, Connecticut. Not far from school.
+    </div>
+    <div class="sentence" onclick="playAudio('038.mp3', 37)">
+        38. 你能为我介绍你的家庭吗？Can you tell me about your family?<br>
+        当然。我家有四个人，除了父母之外我还有一个姐姐。姐姐刚毕业现在在实习。<br>
+        Sure. My family has four people. Besides my parents, I have an older sister. She has just graduated and is doing an internship. (slow down the speed)
+    </div>
+    <div class="sentence" onclick="playAudio('039.mp3', 38)">
+        39. 如果你的签证被拒了，你会怎么做？What will you do if you don't get this Visa？<br>
+        我希望我的回答可以让您满意，批准我的签证。但如果被拒了，那一定是我准备的不充份，我还会再准备好再来签。<br>
+        I hope my answer can satisfy you and give me the visa. But if not, it must be because I haven't prepared enough, so I will try again.
+    </div>
+    <div class="sentence" onclick="playAudio('040.mp3', 39)">
+        40. 你现在住在哪里？Where do you live?<br>
+        福建省泉州市。Quanzhou City, Fujian Province.
+    </div>
+    <div class="sentence" onclick="playAudio('041.mp3', 40)">
+        41. 你有学校的成绩单吗？Do you have a school transcript?<br>
+        Yes, Here you go.
+    </div>
+    <div class="sentence" onclick="playAudio('042.mp3', 41)">
+        42. 你在背答案吗？Are you memorizing the answers?<br>
+        没有。No
+    </div>
+    <div class="sentence" onclick="playAudio('043.mp3', 42)">
+        43. 你今年几岁？How old are you?<br>
+        19 Nineteen
+    </div>
+    <div class="sentence" onclick="playAudio('044.mp3', 43)">
+        44. 你曾经被拒签过吗？Have you ever been refused a visa?<br>
+        没有。No. Never.
+    </div>
+    <div class="sentence" onclick="playAudio('045.mp3', 44)">
+        45. 你去过美国吗？Have you ever been to the US?<br>
+        没有。No
+    </div>
+    <div class="sentence" onclick="playAudio('046.mp3', 45)">
+        46. 💥如果你在美国的钱用尽了，你该怎么办？If you run out of money in the US what will you do?<br>
+        除非我家里出了巨大变故，不然我爸妈已经为我预备了足够的钱。<br>
+        My parents have prepared enough money for me, which shouldn’t run out as long as nothing big happens in my family.
+    </div>
+    <div class="sentence" onclick="playAudio('047.mp3', 46)">
+        47. 💥你有考虑过在美国工作吗？Are you considered working in US? 就业率+工签+中国优势<br>
+        美国就业率一直下滑，而且工作签证也很难。我并不打算在美国就业。中国优势更大，更适合我就业。<br>
+        No, the employment rate in the US has been declining, and it is hard to get a work visa. I don't plan to work there. I prefer to work in China and it has more advantages and is more suitable for me.
+    </div>
+    <div class="sentence" onclick="playAudio('048.mp3', 47)">
+        48. 你的兴趣爱好是什么？What are your interests and hoVbies?<br>
+        休闲时间我喜欢音乐，我会弹钢琴和吉他。运动这方面，我喜欢羽毛球。<br>
+        In my free time I like music, I can play the piano and guitar. As for sports, I like badminton.
+    </div>
+    <div class="sentence" onclick="playAudio('049.mp3', 48)">
+        49. 你会住在寄宿家庭吗？Are you going to live with a host family?<br>
+        我会在学校附近租个地方，如果拿到签证，我就会把押金付了。<br>
+        No, I will rent a place around campus. If I get the visa, I’ll pay the deposit for the room.
+    </div>
+    <div class="sentence" onclick="playAudio('050.mp3', 49)">
+        50. 你打算什么时候离开去美国？When are you planning to leave?<br>
+        大概一月中旬。 Around mid-January.
+    </div>
+    <div class="sentence" onclick="playAudio('051.mp3', 50)">
+        51. 💥去到美国后你会和你的朋友做什么？What will you do with your close friends in the US?<br>
+        我想我会和他们一起去图书馆学习，去体育馆锻炼或者去购物逛当地的街市之类的吧。<br>
+        I think I’ll go to the library with them to study, go to the gym to exercise, or go shopping in the local market.
+    </div>
+
+    <!-- 音频播放器和控制按钮 -->
+    <div class="audio-controls">
+        <audio id="audioPlayer" controls></audio>
+        <button id="playPauseBtn" onclick="togglePlayPause()">播放</button>
+        <div id="progressInfo">0%</div>
+    </div>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" onclick="scrollToTop()">返回顶部</button>
+
+    <script>
+        const audio = document.getElementById('audioPlayer');
+        const sentences = document.querySelectorAll('.sentence');
+        const autoplayToggle = document.getElementById('autoplayToggle');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressInfo = document.getElementById('progressInfo');
+        let currentIndex = -1; // 当前播放的索引
+        let autoplay = false;
+
+        function playAudio(file, index) {
+            // 如果点击同一句，切换暂停/播放
+            if (currentIndex === index) {
+                if (!audio.paused) {
+                    audio.pause();
+                    playPauseBtn.textContent = '播放';
+                } else {
+                    audio.play();
+                    playPauseBtn.textContent = '暂停';
+                }
+                return;
+            }
+
+            // 切换到新文段播放
+            currentIndex = index;
+            audio.src = file;
+            audio.play();
+            playPauseBtn.textContent = '暂停';
+
+            // 更新高亮
+            sentences.forEach(el => el.classList.remove('active'));
+            sentences[currentIndex].classList.add('active');
+        }
+
+        function togglePlayPause() {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.textContent = '暂停';
+            } else {
+                audio.pause();
+                playPauseBtn.textContent = '播放';
+            }
+        }
+
+        function toggleAutoplay() {
+            autoplay = !autoplay;
+            autoplayToggle.textContent = `自动播放：${autoplay ? '开' : '关'}`;
+            autoplayToggle.classList.toggle('off', !autoplay);
+        }
+
+        audio.addEventListener('ended', () => {
+            if (autoplay) {
+                currentIndex++;
+                if (currentIndex < sentences.length) {
+                    const nextAudioFile = sentences[currentIndex].getAttribute('onclick').match(/'([^']+)'/)[1];
+                    playAudio(nextAudioFile, currentIndex);
+                    sentences[currentIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            const progress = Math.floor((audio.currentTime / audio.duration) * 100);
+            progressInfo.textContent = `${progress}%`;
+        });
+
+        window.onscroll = () => {
+            document.getElementById('backToTop').style.display = (window.scrollY > 300) ? 'block' : 'none';
+        };
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
